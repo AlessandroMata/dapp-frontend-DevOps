@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         DOCKER_IMAGE_NAME = "alecioferreira/forteplus"
+        DOCKER_REMOTE_HOST = "tcp://192.168.200.241:2375" // Substitua pelo endereço do Docker remoto
     }
 
     stages {
@@ -37,6 +38,22 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Remote Docker') {
+            steps {
+                script {
+                    // Usar Docker remoto para realizar o deploy
+                    docker.withServer("${DOCKER_REMOTE_HOST}", 'dockerhub') {
+                        sh """
+                        docker pull ${env.FULL_IMAGE_NAME}
+                        docker stop dapp-frontend || true
+                        docker rm dapp-frontend || true
+                        docker run -d --name dapp-frontend -p 80:80 ${env.FULL_IMAGE_NAME}
+                        """
+                    }
+                }
+            }
+        }
     }
 
     post {
@@ -45,10 +62,10 @@ pipeline {
             sh 'docker image prune -af'
         }
         success {
-            echo 'Build and push completed successfully!'
+            echo 'Build, push, and deploy completed successfully!'
         }
         failure {
-            echo 'Build or push failed.'
+            echo 'Build, push, or deploy failed.'
         }
     }
 }
