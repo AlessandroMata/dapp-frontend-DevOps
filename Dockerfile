@@ -6,7 +6,7 @@ RUN corepack enable
 
 WORKDIR /app
 COPY ./ ./
-ENV PATH /usr/src/code/node_modules/.bin:$PATH
+ENV PATH="/usr/src/code/node_modules/.bin:$PATH"
 RUN pnpm install
 RUN pnpm build
 
