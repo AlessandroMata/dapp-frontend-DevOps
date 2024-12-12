@@ -29,10 +29,11 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Usar docker.withRegistry para login no Docker Hub e push da imagem
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        sh "docker push ${env.FULL_IMAGE_NAME}"
-                    }
+                    // Fazer login no Docker Hub manualmente
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+
+                    // Fazer o push da imagem para o Docker Hub
+                    sh "docker push ${env.FULL_IMAGE_NAME}"
                 }
             }
         }
