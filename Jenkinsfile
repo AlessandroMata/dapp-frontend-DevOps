@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS_ID = '330752ff-80a5-46ed-97e4-fdb900ea4fc0'
-        REPOSITORY_URL = 'https://your-repository-url-here.git'
+        REPOSITORY_URL = 'https://github.com/AlessandroMata/dapp-frontend-DevOps.git'
     }
 
     stages {
