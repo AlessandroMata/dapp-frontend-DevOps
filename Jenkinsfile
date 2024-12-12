@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        DOCKER_IMAGE_NAME = "dapp-frontend"
+        DOCKER_IMAGE_NAME = "alecioferreira/forteplus"
     }
 
     stages {
