@@ -20,11 +20,13 @@ pipeline {
                 script {
                     // Configurar e executar análise do SonarQube
                     withSonarQubeEnv('SonarQube') { // Nome da instância configurada no Jenkins
-                        sh "/opt/sonar-scanner/bin/sonar-scanner" \
+                        sh """
+                            /opt/sonar-scanner/bin/sonar-scanner \
                             -Dsonar.projectKey=Forteplus \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://192.168.200.240:9000 \
-                            -Dsonar.login=${env.SONAR_AUTH_TOKEN}"
+                            -Dsonar.login=${env.SONAR_AUTH_TOKEN}
+                        """
                     }
                 }
             }
